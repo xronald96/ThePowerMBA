@@ -1,5 +1,5 @@
 {
-  "name": "sastremuscular-backend",
+  "name": "ThePowerMBA",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xronald96/sastremuscular-backend.git"
+    "url": "git+https://github.com/xronald96/ThePowerMBA.git"
   },
   "author": "ronald",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xronald96/sastremuscular-backend/issues"
+    "url": "https://github.com/xronald96/ThePowerMBA/issues"
   },
-  "homepage": "https://github.com/xronald96/sastremuscular-backend#readme",
+  "homepage": "https://github.com/xronald96/ThePowerMBA#readme",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
