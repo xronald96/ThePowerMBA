@@ -10,11 +10,9 @@ const createUser = async ({
 	surname,
 	email,
 	password,
-	phone,
-	birthday,
 }: UserEntity): Promise<SuccessResponse | ErrorResponse> => {
 	try {
-		if (!(email && password && name && surname && phone && birthday))
+		if (!(email && password && name && surname))
 			return CreateErrorResponse(HTTP_STATUS.BAD_REQUEST, RESPONSE_ERROR_MESSAGE.INPUTS_REQUIRED);
 
 		const user = await User.findOne({ email }).exec();
@@ -22,7 +20,7 @@ const createUser = async ({
 		if (user) return CreateErrorResponse(HTTP_STATUS.BAD_REQUEST, RESPONSE_ERROR_MESSAGE.USER_ALREADY_EXIST);
 
 		const encryptedPassword = await bcrypt.hash(password, 10);
-		const newUser = await new User({ name, surname, email, password: encryptedPassword, phone, birthday });
+		const newUser = await new User({ name, surname, email, password: encryptedPassword });
 		newUser.save();
 		return CreateSuccessResponse(HTTP_STATUS.CREATED, newUser);
 	} catch (err) {
