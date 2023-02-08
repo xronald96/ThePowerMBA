@@ -34,7 +34,6 @@ const createUser = async ({
 		}
 		const nameToLowerCase = name.toLocaleLowerCase();
 		const user = await User.findOne({ name: nameToLowerCase }).exec();
-
 		if (user)
 			return CreateErrorResponse(
 				HTTP_STATUS.BAD_REQUEST,
@@ -63,11 +62,52 @@ const createUser = async ({
 
 const getUserById = async (id: string) => {
 	try {
+		if (!id) return CreateErrorResponse(HTTP_STATUS.BAD_REQUEST, 'id is required');
 		const user = await User.findById(id).exec();
-		return CreateSuccessResponse(200, user);
+		return CreateSuccessResponse(200, {
+			name: user?.name,
+			age: user?.age,
+			accountNumber: user?.accountNumber,
+		});
 	} catch (err) {
 		return CreateErrorResponse(500, 'Internal Error', err);
 	}
 };
 
-export { createUser, getUserById };
+const getUserConnections = async (id: string) => {
+	try {
+		if (!id) return CreateErrorResponse(HTTP_STATUS.BAD_REQUEST, 'id is required');
+		const user = await User.findById(id).exec();
+		const connections =
+			user && user.connections.length > 0
+				? await User.find({ _id: [user?.connections] })
+				: [];
+		return CreateSuccessResponse(
+			HTTP_STATUS.OK,
+			connections?.map((itemUser) => {
+				return {
+					name: itemUser.name,
+					age: itemUser.age,
+					accountNumber: itemUser.accountNumber,
+				};
+			}),
+		);
+	} catch (err) {
+		return CreateErrorResponse(500, 'Internal Error', err);
+	}
+};
+
+const deleteUserConnection = async (id: string, userToId: string) => {
+	if (!id || !userToId) return CreateErrorResponse(HTTP_STATUS.BAD_REQUEST, 'id is required');
+	const userFrom = await User.findById(id);
+	const userTo = await User.findById(userToId);
+	if (userFrom && userTo) {
+		userTo.connections = userTo?.connections.filter((it) => it !== id);
+		userFrom.connections = userFrom?.connections.filter((it) => it !== userToId);
+		userTo.save();
+		userFrom.save();
+		return CreateSuccessResponse(HTTP_STATUS.OK, null);
+	} else return CreateErrorResponse(HTTP_STATUS.NOT_FOUND, 'Users not found');
+};
+
+export { createUser, getUserById, getUserConnections, deleteUserConnection };

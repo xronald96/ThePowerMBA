@@ -8,7 +8,7 @@ const connectionsSchema = new Schema<ConneionEntity>(
 		status: { type: String, required: true },
 		
 	},
-	{ collection: 'request' },
+	{ collection: 'connection' },
 );
 
-export default model<ConneionEntity>('Request', connectionsSchema);
+export default model<ConneionEntity>('Connection', connectionsSchema);

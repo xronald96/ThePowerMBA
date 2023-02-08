@@ -1,17 +1,20 @@
 import request from 'supertest';
 import { app } from '../../index';
 import { disconnect } from 'mongoose';
-import { newUser } from '../mocks/userMocks';
+import { newUser, realPassword } from '../mocks/userMocks';
 import User from '../../schemas/User';
 import { HTTP_STATUS, RESPONSE_ERROR_MESSAGE } from '../../utils/constants';
 
 describe('Login route', () => {
+	let user: any;
 	beforeEach(async () => {
 		jest.setTimeout(10000);
 	});
 
 	beforeAll(async () => {
 		await User.deleteMany().exec();
+		user = await new User(newUser);
+		await user.save();
 	});
 
 	afterAll(async () => {
@@ -20,10 +23,9 @@ describe('Login route', () => {
 	});
 
 	it('login new user', async () => {
-		await request(app).post('/user').send(newUser);
 		await request(app)
 			.put('/login')
-			.send({ name: newUser.name, password: newUser.password })
+			.send({ name: user.name, password: realPassword })
 			.expect(HTTP_STATUS.OK)
 			.expect('Content-Type', /application\/json/);
 	});

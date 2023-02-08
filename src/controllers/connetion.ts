@@ -26,9 +26,9 @@ const sendConnection = async ({
 		});
 		if (previousRequest)
 			return CreateErrorResponse(HTTP_STATUS.BAD_REQUEST, 'This request have already sent ');
-		const newRequest = new Request({
-			senderId: fromUser.id,
-			recieverId: toUser.id,
+		const newRequest = new Connection({
+			from: fromUser.id,
+			to: toUser.id,
 			status: 'pending',
 		});
 		newRequest.save();
@@ -61,18 +61,26 @@ const manageConnection = async ({
 		const userTo = await User.findById(connection.to);
 		const userFrom = await User.findById(connection.from);
 		if (userFrom && userTo) {
-			userTo.connections = [...userTo?.connections, connection.from]
-			userFrom.connections = [...userFrom?.connections, connection.to]
-			return CreateSuccessResponse(HTTP_STATUS.OK, connection)
+			if (
+				userFrom.connections.find((userId) => userId === userTo.id) ||
+				userTo.connections.find((userId) => userId === userFrom.id)
+			)
+				return CreateErrorResponse(
+					HTTP_STATUS.BAD_REQUEST,
+					'This connection have alreadt been added',
+				);
+			userTo.connections = userTo.connections
+				? [...userTo.connections, connection.from]
+				: [connection.from];
+			userFrom.connections = userFrom.connections
+				? [...userFrom.connections, connection.to]
+				: [connection.to];
+			userFrom.save();
+			userTo.save();
+			return CreateSuccessResponse(HTTP_STATUS.OK, connection);
+		} else {
+			return CreateErrorResponse(HTTP_STATUS.NOT_FOUND, 'Users not found');
 		}
-		else {
-			return CreateErrorResponse(
-				HTTP_STATUS.NOT_FOUND,
-				'Users not found'
-			);
-		}
-
-
 	} catch (err) {
 		return CreateErrorResponse(
 			HTTP_STATUS.INTERNAL_ERROR,

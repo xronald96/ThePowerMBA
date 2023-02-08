@@ -1,10 +1,13 @@
 export const newUser = {
-	name: 'pepe',
+	name: 'juan',
 	surname: 'Veliz',
 	age: 26,
-	balance: 100,
-	password: '163Rewr3333@s3333333',
+	balance: 1000,
+	password: '$2a$10$6LGWWq0lYfalyp0F5f8B4eiGlioWhfTZ5uNzblbuqgY3fNEG3q3Oa',
+	accountNumber: 999999999,
 };
+
+export const realPassword = '163Rewr3333@s3333333';
 
 export const populateInitDB = [
 	{
