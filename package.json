@@ -1,5 +1,5 @@
 {
-  "name": "sastremuscular-backend",
+  "name": "ThePowerMBA",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,17 +13,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xronald96/sastremuscular-backend.git"
+    "url": "git+https://github.com/xronald96/ThePowerMBA.git"
   },
   "author": "ronald",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xronald96/sastremuscular-backend/issues"
+    "url": "https://github.com/xronald96/ThePowerMBA/issues"
   },
-  "homepage": "https://github.com/xronald96/sastremuscular-backend#readme",
+  "homepage": "https://github.com/xronald96/ThePowerMBA#readme",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.5",
     "@types/jest": "^28.1.6",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/supertest": "^2.0.12",
@@ -42,7 +43,9 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
-    "express": "4.18.1"
+    "express": "4.18.1",
+    "express-session": "^1.17.3",
+    "joi": "^17.7.0"
   },
   "husky": {
     "hooks": {

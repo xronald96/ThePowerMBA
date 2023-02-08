@@ -2,9 +2,10 @@ export interface UserEntity {
 	_id: string,
 	name: string;
 	surname: string;
-	email: string;
-	birthday: string;
+	age: number;
+	balance: number;
+	connections: Array<string>,
+	accountNumber: number;
 	password: string;
 	token: string;
-	phone: string;
 }

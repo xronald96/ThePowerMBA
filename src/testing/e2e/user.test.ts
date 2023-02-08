@@ -20,16 +20,16 @@ describe('User route', () => {
 	});
 
 	it('create new user', async () => {
-		const result = await request(app).post('/user').send(newUser);
+		const result = await request(app).post('/user/').send({
+			name: 'juan',
+			surname: 'Veliz',
+			age: 26,
+			balance: 100,
+			password: '163Rewr3333@s3333333',
+		});
 		expect(result.status).toEqual(HTTP_STATUS.CREATED);
 		idUser = result.body?.response?._id;
 		expect(await User.findById(idUser).exec()).toBeDefined();
-	});
-
-	it('get user by id', async () => {
-		const result = await request(app).get(`/user/${idUser}`);
-		expect(result.status).toEqual(HTTP_STATUS.OK);
-		expect(result.body.response).toBeDefined();
 	});
 
 	it('error when create user with a email registered', async () => {

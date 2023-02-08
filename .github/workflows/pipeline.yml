@@ -1,0 +1,87 @@
+name: Deploying Pipeline
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+env:
+  JWT_TOKEN: ${{secrets.JWT_TOKEN}}
+  URI_MONGODB_PROD: ${{secrets.URI_MONGODB_PROD}}
+  URI_MONGODB_DEV: ${{secrets.URI_MONGODB_DEV}}
+  CI: true
+
+jobs:
+
+  avoid_previous_builds:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: cancel previous builds
+        uses: styfle/cancel-workflow-action@0.9.1
+        with: 
+          access_token: ${{ github.token  }}
+
+  install:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Intalling dependencies
+        run: npm ci
+  lint:
+    needs: [install]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Intalling dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+  tests:
+    needs: [install]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Intalling dependencies
+        run: npm ci
+      - name: Running test
+        run: npm run test
+  build:
+    needs: [install]
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Intalling dependencies
+        run: npm ci
+      - name: Build
+        run : npm run build
+  deploy:
+    needs: ['lint', 'build', 'tests']
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Deploy heroku
+        run : 'echo \"Desployed\"'
