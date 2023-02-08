@@ -1,20 +1,18 @@
-
 export const newUser = {
-    name:"Ronald",
-    surname:"Veliz",
-    email:"ronald881996@gmail.com",
-    phone:"654119299",
-    password:"123456",
-    birthday:"08/05/1996"
-}
+	name: 'pepe',
+	surname: 'Veliz',
+	age: 26,
+	balance: 100,
+	password: '163Rewr3333@s3333333',
+};
 
 export const populateInitDB = [
-    {
-        name:"Juan",
-        surname:"Perez",
-        email:"Juan@gmail.com",
-        phone:"647896548",
-        password: "123456",
-        birthday:"08/05/1996"
-    }
-]
+	{
+		name: 'Juan',
+		surname: 'Perez',
+		email: 'Juan@gmail.com',
+		phone: '647896548',
+		password: '123456',
+		birthday: '08/05/1996',
+	},
+];

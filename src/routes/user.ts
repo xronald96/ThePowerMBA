@@ -11,4 +11,5 @@ userRouter.get('/:id', async(req, res)=> {
     const response = await getUserById(req.params.id)
     res.status(response.status).json(response)
 })
+
 export default userRouter;
